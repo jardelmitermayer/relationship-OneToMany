@@ -49,3 +49,23 @@ Route::get('produtos', function () {
         }
     }
 });
+Route::get('categoriasprodutos', function () {
+    $cat = Categoria::all();
+    if (count($cat) === 0) {
+        echo "<h4>Você não possui nenhuma categoria cadastrada</h4>";
+    }
+    else{
+        foreach($cat as $c){
+            echo "<p>". $c->id."-". $c->nome ."</p>";
+            $produtos = $c->produtos;
+        
+            if(count($produtos) >0 ){
+                echo "<ul>";
+                foreach($produtos as $p){
+                    echo "<li>". $p->nome . "</li>";
+                }
+                echo "</ul>";
+            }
+        }
+    }
+});
