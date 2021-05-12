@@ -96,3 +96,18 @@ Route::get('/dessasociarprodutocategoria', function () {
     }
     return '';
 });
+
+
+Route::get('/adicionarproduto/{catid}', function ($catid) {
+    $cat = Categoria::with('produtos')->find($catid);
+    $prod = new Produto();
+    $prod->nome = "Produto adicionado com categoria";
+    $prod->estoque = 10;
+    $prod->preco = 400;
+    
+    if(isset($cat)){
+        $cat->produtos()->save($prod);
+    }
+    $cat->load('produtos');
+    return $cat->toJson();
+});
