@@ -74,3 +74,25 @@ Route::get('categoriasprodutos/json', function () {
     $cats = Categoria::with('produtos')->get();
     return $cats->toJson();
 });
+
+
+Route::get('/adicionarproduto', function () {
+    $cat = Categoria::find(1);
+    $prod = new Produto();
+    $prod->nome = "Meu novo produto";
+    $prod->estoque = 10;
+    $prod->preco = 50;
+    $prod->categoria()->associate($cat);
+    $prod->save();
+    return $prod->toJson();
+});
+
+Route::get('/dessasociarprodutocategoria', function () {   
+    $prod = Produto::find(10);
+    if (isset($prod)){
+        $prod->categoria()->dissociate();
+        $prod->save();
+        return $prod->toJson();
+    }
+    return '';
+});
